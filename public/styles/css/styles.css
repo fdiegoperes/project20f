@@ -1,0 +1,99 @@
+/*Fontface Declarations*/
+@font-face {
+  font-family: 'Quicksand-Light';
+  src: url('../fonts/Quicksand-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Quicksand-Regular';
+  src: url('../fonts/Quicksand-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Quicksand-Medium';
+  src: url('../fonts/Quicksand-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Quicksand-Semibold';
+  src: url('../fonts/Quicksand-Semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Quicksand-Bold';
+  src: url('../fonts/Quicksand-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+html {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+html body {
+  font-family: 'Quicksand-Regular', sans-serif;
+  color: #000000;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../../images/pexels-ana-madeleine-uribe-2762942.jpg');
+}
+.navbar {
+  display: flex;
+  width: 100%;
+  height: 85px;
+  background-color: #B4000F;
+}
+.navbar .header {
+  padding-left: 60px;
+  font-family: 'Quicksand-Light', sans-serif;
+  font-size: 24px;
+  color: #FFFFFF;
+  line-height: 85px;
+}
+.main-content {
+  color: #FFFFFF;
+  text-align: center;
+}
+.main-content .welcome-text {
+  margin-top: 5em;
+  text-align: center;
+}
+.text-input {
+  border: 0;
+  border-radius: 3px;
+  width: 15rem;
+  padding: 1rem 0.5rem 1rem 0.5rem;
+  box-sizing: border-box;
+}
+.button {
+  border: 0;
+  border-radius: 3px;
+  width: auto;
+  padding: 1rem 1rem 1rem 1rem;
+  background-color: transparent;
+}
+.button.button-confirm {
+  color: #FFFFFF;
+  background-color: #597718;
+}
+.button.button-cancel {
+  color: #FFFFFF;
+  background-color: #B4000F;
+}
+.button:active {
+  box-shadow: inset -1px 2px 0 0 #394d0f;
+  outline: 0;
+}
+#beginOrder {
+  margin-left: 5px;
+}
+@media screen and (max-width: 320px) {
+  #beginOrder {
+    margin-top: 10px;
+  }
+}

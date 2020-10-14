@@ -1,0 +1,80 @@
+@import 'imports.less';
+
+
+html {
+    display:flex;
+    width: 100%;
+    height:100%;
+    body {
+        font-family: 'Quicksand-Regular', sans-serif;
+        color: @black;
+        margin: 0;
+        width:100%;
+        height:100%;
+        background-image: url('../../images/pexels-ana-madeleine-uribe-2762942.jpg');
+    }
+}
+
+.navbar {
+    display: flex;
+    width: 100%;
+    height: 85px;
+    background-color: @red;
+
+    .header {
+        padding-left:60px;
+        font-family: 'Quicksand-Light', sans-serif;
+        font-size: 24px;
+        color: @white;
+        line-height: 85px;
+    }
+}
+
+.main-content {
+    color: @white;
+    text-align: center;
+    .welcome-text {
+        margin-top:5em;
+        text-align: center;
+    }
+}
+
+.text-input {
+    border: 0;
+    border-radius: 3px;
+    width: 15rem;
+    padding: 1rem 0.5rem 1rem 0.5rem;
+    box-sizing: border-box;
+}
+
+.button {
+    border:0;
+    border-radius:3px;
+    width: auto;
+    padding: 1rem 1rem 1rem 1rem;
+    background-color: transparent;
+
+    &.button-confirm {
+        color: @white;
+        background-color: @green
+    }
+    &.button-cancel {
+        color: @white;
+        background-color: @red;
+    }
+
+    &:active {
+        box-shadow: inset -1px 2px 0 0 darken(@green,10%);
+        outline:0;
+    }
+}
+
+#beginOrder {
+    margin-left:5px
+}
+
+@media screen and (max-width:320px) {
+    #beginOrder {
+        margin-top:10px;
+    }
+}
