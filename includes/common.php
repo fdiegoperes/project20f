@@ -2,8 +2,8 @@
 
   /*Declaring the constants to be used*/
   define("HOST", "localhost");
-  define("USERNAME", "UsernNameCreatedAsRequested");
-  define("PASSWORD","UserNamePassword");
+  define("USERNAME", "user1");
+  define("PASSWORD","Windows123!");
   define("DB", "pizza_store");
 
   /*Function which creates and returns the connection made*/
@@ -21,17 +21,7 @@
     return $conn;
   }
 
-  
-  /* CONNECTION TEST MADE DURING DEV (TO BE DELETED!!!)
-  define("HOST", "localhost");
-  define("USERNAME", "lamp1user");
-  define("PASSWORD","123456");
-  define("DB", "testedatabase");
-
-  $connection = connectToDB(HOST, USERNAME, PASSWORD, DB);
-  $test = $connection->query('select * from MyGuests')->fetch();
-  echo $test['firstname'];
-  */
+  $conn = connectToDB();
 
   ?>
 

@@ -23,11 +23,12 @@ DROP TABLE IF EXISTS `tblCustomers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tblCustomers` (
-  `id` int NOT NULL,
-  `email` varchar(50) DEFAULT NULL,
-  `nameCustomer` varchar(40) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(50) NOT NULL,
+  `nameCustomer` varchar(40) DEFAULT NULL,
   `address` varchar(60) DEFAULT NULL,
   `phone` varchar(24) DEFAULT NULL,
+  `deliveryDetails` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `customers_email_uk` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

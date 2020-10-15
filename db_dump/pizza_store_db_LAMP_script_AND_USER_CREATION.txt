@@ -1,32 +1,31 @@
+/* Hello, professor. */
+/* We created this document to explain the step-by-step to create the database, user, and tables for the project. */
+/* Please, copy and paste the whole script.*/
 
-// Hello, professor.
-// We created this document to explain the step-by-step to create the database, user, and tables for the project.
-
-sudo mysql -u root -p;
-
-// Creating the database
-create database pizza_store default character set utf8;
-
-// Creating user and granting the permissions
+/* Creating user and granting the permissions */
 create user 'user1'@'localhost'IDENTIFIED BY'Windows123!';
 GRANT ALL PRIVILEGES on pizza_store.*TO'user1'@'localhost';
 
-// Verify the databases
+/* Creating the database */
+create database pizza_store default character set utf8;
+
+/* Verify the databases */
 show databases;
 
-// Changing to pizza_store database
+/* Changing to pizza_store database */
 use pizza_store;
 
-// Create tables in pizza_store database
-// Script
+/* Create tables in pizza_store database */
+/* Script */
 
 CREATE TABLE tblCustomers
 (
-Id int not null,
-email varchar(50) null,
-nameCustomer varchar(40) not null,
+Id int not null auto_increment,
+email varchar(50) not null,
+nameCustomer varchar(40) null,
 address varchar(60) null,
 phone varchar(24) null,
+deliveryDetails varchar(100) null,
 
 constraint customers_custId_pk primary key(Id),
 constraint customers_email_uk unique (email));
