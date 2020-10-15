@@ -2,12 +2,12 @@
 /* We created this document to explain the step-by-step to create the database, user, and tables for the project. */
 /* Please, copy and paste the whole script.*/
 
+/* Creating the database */
+create database pizza_store default character set utf8;
+
 /* Creating user and granting the permissions */
 create user 'user1'@'localhost'IDENTIFIED BY'Windows123!';
 GRANT ALL PRIVILEGES on pizza_store.*TO'user1'@'localhost';
-
-/* Creating the database */
-create database pizza_store default character set utf8;
 
 /* Verify the databases */
 show databases;

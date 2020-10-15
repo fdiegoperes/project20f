@@ -1,6 +1,7 @@
 <?php 
     session_start();
-    include('includes/common.php');
+    //include('includes/common.php');
+    require_once("common.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
