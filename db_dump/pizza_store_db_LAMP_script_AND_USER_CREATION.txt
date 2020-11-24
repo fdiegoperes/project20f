@@ -25,7 +25,9 @@ email varchar(50) not null,
 nameCustomer varchar(40) null,
 address varchar(60) null,
 phone varchar(24) null,
-deliveryDetails varchar(100) null,
+city varchar(20) null,
+province varchar(20) null,
+postalCode varchar(15) null,
 
 constraint customers_custId_pk primary key(Id),
 constraint customers_email_uk unique (email));
