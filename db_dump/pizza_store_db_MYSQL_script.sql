@@ -1,19 +1,19 @@
-/* Hello, professor. */
-/* We created this document to explain the step-by-step to create the database, user, and tables for the project. */
-/* Please, copy and paste the whole script.*/
+-- MySQL dump 10.13  Distrib 8.0.21, for Linux (x86_64)
+--
+-- Host: localhost    Database: pizza_store
+-- ------------------------------------------------------
+-- Server version	8.0.21-0ubuntu0.20.04.4
 
-/* Creating the database */
-create database pizza_store default character set utf8;
-
-/* Creating user and granting the permissions */
-create user 'user1'@'localhost'IDENTIFIED BY'Windows123!';
-GRANT ALL PRIVILEGES on pizza_store.*TO'user1'@'localhost';
-
-/* Verify the databases */
-show databases;
-
-/* Changing to pizza_store database */
-use pizza_store;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
 -- Table structure for table `tblCustomers`
