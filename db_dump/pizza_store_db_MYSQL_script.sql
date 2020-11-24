@@ -78,10 +78,10 @@ DROP TABLE IF EXISTS `tblPizza`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tblPizza` (
   `pizzaId` smallint NOT NULL AUTO_INCREMENT,
-  `dough` varchar(20) DEFAULT NULL,
-  `cheese` varchar(20) DEFAULT NULL,
-  `sauce` varchar(20) DEFAULT NULL,
-  `toppings` varchar(20) DEFAULT NULL,
+  `dough` varchar(100) DEFAULT NULL,
+  `cheese` varchar(100) DEFAULT NULL,
+  `sauce` varchar(100) DEFAULT NULL,
+  `toppings` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`pizzaId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
