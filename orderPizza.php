@@ -1,56 +1,70 @@
 <?php
     include('includes/header.php');
     $dough_error = $cheese_error = $sauce_error = $toppings_error = '';
-?>
-<?php 
-  if(isset($_POST['addPizzaToOrder'])) {
+
     $toppings = $pizza = $pizza_order = $err_msgs = array();
 
-    // VALIDATE DOUGH
-    if(isset($_POST['dough'])) {
-      $dough = trim($_POST['dough']);
-    } else {
-      $err_msgs[] = $dough_error = "Please select your favorite dough.";
+    function validateForm() {
+
+        global $toppings, $pizza, $pizza_order, $err_msgs, $dough_error, $cheese_error, $sauce_error, $toppings_error;
+    
+        // VALIDATE DOUGH
+        if(isset($_POST['dough'])) {
+          $dough = trim($_POST['dough']);
+        } else {
+          $err_msgs[] = $dough_error = "Please select your favorite dough.";
+        }
+    
+        // VALIDATE CHEESE
+        if(isset($_POST['cheese'])) {
+          $cheese = trim($_POST['cheese']);
+        } else {
+          $err_msgs[] = $cheese_error = "Please select your favorite cheese.";
+        }
+    
+        // VALIDATE SAUCE
+        if(isset($_POST['sauce'])) {
+          $sauce = trim($_POST['sauce']);
+        } else {
+          $err_msgs[] = $sauce_error = "Please select your favorite sauce.";
+        }
+    
+        // VALIDATE TOPPINGS
+        if(isset($_POST['toppings'])) {
+          if (count($_POST['toppings']) > 5) {
+            $err_msgs[] = $toppings_error = 'Sorry, you can only select up to 5 toppings.';
+          } else {
+            $toppings[] = $_POST['toppings'];
+          }
+        } else {
+          $err_msgs[] = $toppings_error = "Please select your favorite toppings.";
+        }
+          
+        // ADD TO "CART" ($_SESSION)
+        if((count($err_msgs) == 0)) {
+          if (!isset($_SESSION['pizza_order'])) {
+            $_SESSION['pizza_order'] = array(); 
+          }
+          array_push($_SESSION['pizza_order'],array($dough,$cheese,$sauce,json_encode($toppings)));
+        }
     }
 
-    // VALIDATE CHEESE
-    if(isset($_POST['cheese'])) {
-      $cheese = trim($_POST['cheese']);
-    } else {
-      $err_msgs[] = $cheese_error = "Please select your favorite cheese.";
+?>
+<?php 
+  // Call function to validate Form fields and add a new one
+  if(isset($_POST['addPizzaToOrder'])) { 
+    validateForm();
+    $_SESSION["orderType"] = 'multiple';
+
+  } else if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['completeOrder'])){
+    // Call when Order is Completed 
+    validateForm();
+    if(!isset($_SESSION["orderType"])) {
+      $_SESSION["orderType"] = 'single';
     }
 
-    // VALIDATE SAUCE
-    if(isset($_POST['sauce'])) {
-      $sauce = trim($_POST['sauce']);
-    } else {
-      $err_msgs[] = $sauce_error = "Please select your favorite sauce.";
-    }
-
-    // VALIDATE TOPPINGS
-    if(isset($_POST['toppings'])) {
-      if (count($_POST['toppings']) > 5) {
-        $err_msgs[] = $toppings_error = 'Sorry, you can only select up to 5 toppings.';
-      } else {
-        $toppings[] = $_POST['toppings'];
-      }
-    } else {
-      $err_msgs[] = $toppings_error = "Please select your favorite toppings.";
-    }
-      
-    // ADD TO "CART" ($_SESSION)
-    if((count($err_msgs) == 0)) {
-      if (!isset($_SESSION['pizza_order'])) {
-        $_SESSION['pizza_order'] = array(); 
-      }
-      array_push($_SESSION['pizza_order'],array($dough,$cheese,$sauce,json_encode($toppings)));
-    }
-
-  }
-  // INSERTS 
-  else if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['completeOrder'])){
-    if(isset($_SESSION['pizza_order'])) { // START 
-      echo "passou 1";
+    // Get all "CART" data and insert in the database
+    if(isset($_SESSION['pizza_order'])) {
       // INSERT ORDERS - One row for the whole order
       $sql = 'Insert into tblOrders (email, orderDate) values (:email, :orderDate)';
       $insert = $conn->prepare($sql);
@@ -66,39 +80,62 @@
         echo "Error ".$insert->errorCode()."\n Message ".implode($insert->errorInfo())."\n";
         exit(1);
       }
-
-      echo "passou 2";
       
+      // Storing the last ID used with AUTO_INCREMENT for tblOrders
+      $lastOrderID = $conn->lastInsertId();
       
-      // INSERT PIZZA - One row for each selected pizza 
+      // Storing the session before adding PIZZA
       $rows = $_SESSION['pizza_order'];
-
-      $sql = 'Insert into tblPizza (dough, cheese, sauce, toppings) values (?, ?, ?, ?)';
-      $insert = $conn->prepare($sql);
-      if (!$insert){
-        echo "Error ".$conn->errorCode()."\n Message ".implode($conn->errorInfo())."\n";
-        exit(1);
-      }
 
       foreach($rows as $row)
       {
+          // INSERT PIZZA - One row for each selected pizza 
+          $sql = 'Insert into tblPizza (dough, cheese, sauce, toppings) values (?, ?, ?, ?)';
+          $insert = $conn->prepare($sql);
+          if (!$insert){
+            echo "Error ".$conn->errorCode()."\n Message ".implode($conn->errorInfo())."\n";
+            exit(1);
+          }
+
           $status = $insert->execute($row);
+          if(!$status){
+            echo "Error ".$insert->errorCode()."\n Message ".implode($insert->errorInfo())."\n";
+            exit(1);
+          }
+
+          // Storing the last ID used with AUTO_INCREMENT for tblPizza
+          $lastPizzaID = $conn->lastInsertId();
+
+          // INSERT ORDERPIZZA - One row for each added pizza
+          $sql = 'Insert into tblPizzaOrders (orderId, pizzaId) values (:orderID, :pizzaID)';
+          $insert = $conn->prepare($sql);
+          if (!$insert){
+            echo "Error ".$conn->errorCode()."\n Message ".implode($conn->errorInfo())."\n";
+            exit(1);
+          }
+
+          $data = array(":orderID" => $lastOrderID, ":pizzaID" => $lastPizzaID);
+
+          $status = $insert->execute($data);
           if(!$status){
             echo "Error ".$insert->errorCode()."\n Message ".implode($insert->errorInfo())."\n";
             exit(1);
           }
       }
 
+      // Free Session and Post variables
       $_POST = array();
       unset($_SESSION['pizza_order']);
-    } //FINISH
-    // INSERT OF ORDER
-    // INSERT ORDERPIZZA
+
+      // call the userInformation.php page - according requirement
+      echo "<script>window.open('userInformation.php','_self')</script>";
+
+    }
   }
 ?>
 
-<div class="main-content">
-  <h1 class="welcome-text">Hello <?php echo $_SESSION['email'] ?>, welcome to IWD Pizzaria</h1>
+<div class="main-content" >
+  <h1 class="welcome-text">Hello <?php echo $_SESSION['email'] ?>, welcome to IWD Pizzeria</h1>
   <p class="blurb"> Please, feel free to add as many pizzas as you would like! </p>
   <form method="post">
 
@@ -156,8 +193,9 @@
     </p>
 
     </hr>
-    <input type="submit" class="button button-confirm" id="addPizzaToOrder" name="addPizzaToOrder" value="Add pizza to Order">
     <input type="submit" class="button button-confirm" id="completeOrder" name="completeOrder" value="Complete Order">
+
+    <input type="submit" class="button button-confirm" id="addPizzaToOrder" name="addPizzaToOrder" value="Add another Pizza">
   </form>
 </div>
 
