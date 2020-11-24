@@ -51,7 +51,7 @@ DROP TABLE IF EXISTS `tblOrders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tblOrders` (
-  `orderId` smallint NOT NULL,
+  `orderId` smallint NOT NULL AUTO_INCREMENT,
   `email` varchar(50) DEFAULT NULL,
   `orderDate` date DEFAULT NULL,
   PRIMARY KEY (`orderId`),
@@ -77,7 +77,7 @@ DROP TABLE IF EXISTS `tblPizza`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tblPizza` (
-  `pizzaId` smallint NOT NULL,
+  `pizzaId` smallint NOT NULL AUTO_INCREMENT,
   `dough` varchar(20) DEFAULT NULL,
   `cheese` varchar(20) DEFAULT NULL,
   `sauce` varchar(20) DEFAULT NULL,
@@ -103,7 +103,7 @@ DROP TABLE IF EXISTS `tblPizzaOrders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tblPizzaOrders` (
-  `pizzaOrderId` smallint NOT NULL,
+  `pizzaOrderId` smallint NOT NULL AUTO_INCREMENT,
   `orderId` smallint NOT NULL DEFAULT (0),
   `pizzaId` smallint NOT NULL DEFAULT (0),
   PRIMARY KEY (`pizzaOrderId`),
