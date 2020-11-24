@@ -51,7 +51,7 @@ constraint orders_orderId_pk PRIMARY KEY(orderId),
 constraint orders_email_fk foreign key (email) references tblCustomers(email));
 
 CREATE TABLE tblPizzaOrders
-(pizzaOrderId smallint not null,
+(pizzaOrderId smallint not null AUTO_INCREMENT,
 orderId smallint default(0) not null,
 pizzaId smallint default(0) not null,
 
