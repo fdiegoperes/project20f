@@ -1,0 +1,6 @@
+My database name: pizza_store_db
+user: user1
+pass: Windows123!
+
+in tblCustomers
+I deleted deliveryDetails column and added 3 more columns: city, province, postalCode
