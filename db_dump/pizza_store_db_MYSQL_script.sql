@@ -28,7 +28,9 @@ CREATE TABLE `tblCustomers` (
   `nameCustomer` varchar(40) DEFAULT NULL,
   `address` varchar(60) DEFAULT NULL,
   `phone` varchar(24) DEFAULT NULL,
-  `deliveryDetails` varchar(100) DEFAULT NULL,
+  `city` varchar(20) DEFAULT NULL,
+  `province` varchar(20) DEFAULT NULL,
+  `postalCode` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `customers_email_uk` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
