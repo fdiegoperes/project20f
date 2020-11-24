@@ -50,9 +50,28 @@
   // INSERTS 
   else if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['completeOrder'])){
     if(isset($_SESSION['pizza_order'])) { // START 
-      // ALL PIZZAS 
+      echo "passou 1";
+      // INSERT ORDERS - One row for the whole order
+      $sql = 'Insert into tblOrders (email, orderDate) values (:email, :orderDate)';
+      $insert = $conn->prepare($sql);
+      if (!$insert){
+        echo "Error ".$conn->errorCode()."\n Message ".implode($conn->errorInfo())."\n";
+        exit(1);
+      }
+
+      $data = array(":email" => $_SESSION['email'], ":orderDate" => date("Y-m-d"));
+
+      $status = $insert->execute($data);
+      if(!$status){
+        echo "Error ".$insert->errorCode()."\n Message ".implode($insert->errorInfo())."\n";
+        exit(1);
+      }
+
+      echo "passou 2";
+      
+      
+      // INSERT PIZZA - One row for each selected pizza 
       $rows = $_SESSION['pizza_order'];
-      print_r($rows);
 
       $sql = 'Insert into tblPizza (dough, cheese, sauce, toppings) values (?, ?, ?, ?)';
       $insert = $conn->prepare($sql);
@@ -144,3 +163,4 @@
 
 </body>
 </html>
+
