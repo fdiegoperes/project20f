@@ -41,7 +41,7 @@ when email user not exists, create new email button to link to this form -> a ne
 <?php } ?>
 
 <?php function form_1($email = "", $name = "", $address = "", $phone="",$city="", $province="", $postalCode=""){ ?>
-	<form method="POST" action="./formUserInfomation.php">
+	<form method="POST" action="./formUserInformation.php">
 		<label for="email">Email</label>
 		<input type="email" size="50" maxlength="50" id ="email" name="email" value="<?php echo $email; ?>"></input><br>
         <br>
@@ -203,7 +203,7 @@ function validate_form_1(){
 
 //insert new value to tblCustomers in pizza_store_db database
 function insert_data(){
-	$dbc = connectDB();
+	$dbc = connectToDB();
 
 	$stmt = $dbc->prepare('INSERT INTO tblCustomers(email, nameCustomer, address, phone, city, province, postalCode) values(:email, :name, :address, :phone, :city, :province, :postalCode)');
 	if (!$stmt){
