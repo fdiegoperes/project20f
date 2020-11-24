@@ -41,7 +41,7 @@ when email user not exists, create new email button to link to this form -> a ne
 <?php } ?>
 
 <?php function form_1($email = "", $name = "", $address = "", $phone="",$city="", $province="", $postalCode=""){ ?>
-	<form method="POST" action="./formUserInformation.php">
+	<form method="POST" action="./userInformation.php">
 		<label for="email">Email</label>
 		<input type="email" size="50" maxlength="50" id ="email" name="email" value="<?php echo $email; ?>"></input><br>
         <br>
