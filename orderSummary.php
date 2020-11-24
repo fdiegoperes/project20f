@@ -66,7 +66,7 @@ if ($status){
 <?php } ?>
 			</table><br><br>
 Pizza will be ready in 40 minutes and will be delivered to Address: <?php echo $resCust['address'] ?><br><br>
-			<a href="orderPizza.php>">Return to Order page</a><br><br>
+			<a href="orderPizza.php">Return to Order page</a><br><br>
 <?php
 		} else {
 			echo "<div>\n";
