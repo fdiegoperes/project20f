@@ -161,25 +161,25 @@
 
     <p>
       <label for="toppings">Toppings (Up to 5 options)</label><br>
-      <input type="checkbox" id="potato" name="toppings[]" value="potato">
+      <input type="checkbox" id="potato" name="toppings[1]" value="potato">
       <label for="toppings">Potato</label>
-      <input type="checkbox" id="sausage" name="toppings[]" value="sausage">
+      <input type="checkbox" id="sausage" name="toppings[2]" value="sausage">
       <label for="toppings">Sausage</label>
-      <input type="checkbox" id="bacon" name="toppings[]" value="bacon">
+      <input type="checkbox" id="bacon" name="toppings[3]" value="bacon">
       <label for="toppings">Bacon</label>
-      <input type="checkbox" id="mushroom" name="toppings[]" value="mushroom">
+      <input type="checkbox" id="mushroom" name="toppings[4]" value="mushroom">
       <label for="toppings">Mushroom</label>
-      <input type="checkbox" id="black-olives" name="toppings[]" value="black-olives">
+      <input type="checkbox" id="black-olives" name="toppings[5]" value="black-olives">
       <label for="toppings">Black olives</label>
-      <input type="checkbox" id="radicchio" name="toppings[]" value="radicchio">
+      <input type="checkbox" id="radicchio" name="toppings[6]" value="radicchio">
       <label for="toppings">Radicchio</label>
-      <input type="checkbox" id="anchovies" name="toppings[]" value="anchovies">
+      <input type="checkbox" id="anchovies" name="toppings[7]" value="anchovies">
       <label for="toppings">Anchovies</label>
-      <input type="checkbox" id="eggplant" name="toppings[]" value="eggplant">
+      <input type="checkbox" id="eggplant" name="toppings[8]" value="eggplant">
       <label for="toppings">Eggplant</label>
-      <input type="checkbox" id="pepperoni" name="toppings[]" value="pepperoni">
+      <input type="checkbox" id="pepperoni" name="toppings[9]" value="pepperoni">
       <label for="toppings">Pepperoni</label>
-      <input type="checkbox" id="ham" name="toppings[]" value="ham">
+      <input type="checkbox" id="ham" name="toppings[10]" value="ham">
       <label for="toppings">Ham</label>
       <span class="error"> <?php echo $toppings_error; ?></span>
     </p>

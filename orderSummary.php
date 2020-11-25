@@ -52,11 +52,18 @@ if ($status){
 			<td><?php echo $row['cheese']; ?></td>
 			<td><?php echo $row['sauce']; ?></td>
 			<td><?php 
-             $arr = str_replace("[["," ",$row['toppings']);
-             $arr = str_replace("]]"," ",$arr);
-             $string = "";
-			$toppings = explode(",",$arr);
-
+			$arr = str_replace("[","",$row['toppings']);
+			$arr = str_replace("]","",$arr);
+			//echo $arr;
+			$toppings = json_decode($arr, true);
+// 			print_r($my_array_data);
+//              $arr = str_replace("[{","",$row['toppings']);
+//              $arr = str_replace("}]","",$arr);
+//              $arr = str_replace('"',"",$arr);
+//              $arr = str_replace(" ","<br>",$arr);
+//              $string = "";
+// 			$toppings = explode(",",$arr);
+			$string = "";
 			foreach($toppings as $topping){
 			    $string  .= ' ' . $topping;
 			}
