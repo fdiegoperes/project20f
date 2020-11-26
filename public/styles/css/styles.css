@@ -56,8 +56,8 @@ html body {
   line-height: 85px;
 }
 .main-content {
-  color: #FFFFFF;
   text-align: center;
+  color: #B4000F;
 }
 .main-content .welcome-text {
   margin-top: 5em;
@@ -80,6 +80,10 @@ html body {
 .button.button-confirm {
   color: #FFFFFF;
   background-color: #597718;
+}
+.button.button-add {
+  color: #FFFFFF;
+  background-color: #D2691E;
 }
 .button.button-cancel {
   color: #FFFFFF;
