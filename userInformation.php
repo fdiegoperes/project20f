@@ -1,28 +1,33 @@
 <?php 
-	session_start(); 
-	require_once("./includes/common.php");
-?>
+	include('includes/header.php');
+	include('includes/multifunction.php');
 
-<html>
-<head>
-	<title>Project Pizza Store</title>
+?>
 <!--
 This form will be linked to index.php
 when email exists, then click begin button to go to orderPizza -> summaryOrder 
 when email user not exists, create new email button to link to this form -> a new customer fills out all fields and submit if no error
 -->
-</head>
-<body>
-	<h3>User Information</h3>
+
+<div class="main-content" >
+<h1 class="welcome-text">Hello <?php 
+  $helloName = selectCustomer();
+  if ($helloName != "") {
+    echo $helloName;
+  } else {
+    echo $_SESSION['email'];
+  }?>, welcome to User Information</h1>
+
 <?php if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 		$err_msg = validate_form_1();
 		if (count($err_msg) > 0){
 			display_error($err_msg);
-   			form_1( $_POST['email'],$_POST['name'], $_POST['address'], $_POST['phone'], $_POST['city'], $_POST['province'], $_POST['postalCode']);
+   			form_1( $_POST['name'], $_POST['address'], $_POST['phone'], $_POST['city'], $_POST['province'], $_POST['postalCode']);
 	 	} else //no error
         {
-			insert_data();
-			display_data();
+			Update_data();
+			// call the orderSummary.php page if customer is complete and exist - according requirement
+			echo "<script>window.open('orderSummary.php?oid=".$_SESSION['orderId']."','_self')</script>";
 		}
 	} else {
 		//display form_1 
@@ -33,18 +38,8 @@ when email user not exists, create new email button to link to this form -> a ne
 </body>
 </html>
 
-<?php function display_data(){ ?>
-	<h3>POST Data</h3>
-	<pre>
-<?php print_r($_POST);  ?>
-	</pre>
-<?php } ?>
-
-<?php function form_1($email = "", $name = "", $address = "", $phone="",$city="", $province="", $postalCode=""){ ?>
+<?php function form_1($name = "", $address = "", $phone="",$city="", $province="", $postalCode=""){ ?>
 	<form method="POST" action="./userInformation.php">
-		<label for="email">Email</label>
-		<input type="email" size="50" maxlength="50" id ="email" name="email" value="<?php echo $email; ?>"></input><br>
-        <br>
 		<label for="name">Name: </label>
 		<input type="text" size="40" maxlength="40" id ="name" name="name" value="<?php echo $name; ?>"></input><br>
         <br>
@@ -65,7 +60,7 @@ when email user not exists, create new email button to link to this form -> a ne
         <br>
 		<input type="submit" value="Submit"/>
 	</form>
-
+<br><br>
 <?php } ?>
 
 <?php  
@@ -82,29 +77,7 @@ function display_error($error_msg){
 //validate_form_1: check fields
 function validate_form_1(){
 	$error_msg = array();
-   if ($_SESSION['email'] == $_POST['email']){
-         $error_msg[] = "Email exists, enter a new email";
-    }
-    
-    else {
-   //check email field not empty and not > length of db
-	if (!isset($_POST['email'])){
-		$error_msg[] = "Email field not defined";
-	} else if (isset($_POST['email'])){         
-		$email = trim($_POST['email']);
-		if (empty($email)){
-			$error_msg[] = "The email field is empty";
-		} else if (strlen($email) >  50){
-			$error_msg[] = "The email address is too long";
-		} else {
-			$tmp_email = filter_var($email, FILTER_VALIDATE_EMAIL);
-			if (!$tmp_email){
-				$error_msg[] = "Invalid email address entered";
-			}
-		}
-	}//else if
 
-}
     //check name field not empty and not > length of db
 	if (!isset($_POST['name'])){
 		$error_msg[] = "Name field not defined";
@@ -189,7 +162,6 @@ function validate_form_1(){
  
     
 	if (count($error_msg) == 0){
-		$_SESSION['email'] = $email;
         $_SESSION['name'] = $name;
         $_SESSION['address'] = $address;
         $_SESSION['phone'] = $phone;
@@ -201,31 +173,33 @@ function validate_form_1(){
 	return $error_msg;
 } 
 
-//insert new value to tblCustomers in pizza_store_db database
-function insert_data(){
-	$dbc = connectToDB();
-
-	$stmt = $dbc->prepare('INSERT INTO tblCustomers(email, nameCustomer, address, phone, city, province, postalCode) values(:email, :name, :address, :phone, :city, :province, :postalCode)');
-	if (!$stmt){
-		echo "Error ".$dbc->errorCode()."\nMessage ".implode($dbc->errorInfo())."\n";
-		exit(1);
-	}
-
-	$email = $_SESSION['email'];
+// update to tblCustomers in pizza_store_db database
+function update_data(){
     $name=$_SESSION['name'];
     $address=$_SESSION['address'];
     $phone = $_SESSION['phone'];
     $city=$_SESSION['city'];
     $province=$_SESSION['province'];
     $postalCode=$_SESSION['postalCode'];
+    
+    $conn = connectToDB();
+   
+	$qry = 'UPDATE tblCustomers ';
+	$qry .= 'SET nameCustomer="'.$name.'", address="'.$address.'", phone="'.$phone.'", city="'.$city.'", province="'.$province.'", postalCode="'.$postalCode.'" ';
+	$qry .= ' WHERE email ="'. $_SESSION['email'].'"; ' ;
+// 	echo $qry;
+	$stmt = $conn->prepare($qry);
+	if (!$stmt){
+		echo "Error ".$dbc->errorCode()."\nMessage ".implode($dbc->errorInfo())."\n";
+		exit(1);
+	}
 
-	$data = array(":email" => $email, ":name"=>$name,":address"=>$address, ":phone" => $phone, ":city"=>$city,":province"=>$province,":postalCode"=>$postalCode);
-
-	$status = $stmt->execute($data);
+	$status = $stmt->execute();
 	if(!$status){
-		echo "Error ".$stmt->errorCode()."\nMessage ".implode($stmt->errorInfo())."\n";
+		echo "Error ".$stmt->errorCode()."\nMessaege ".implode($stmt->errorInfo())."\n";
 		exit(1);
 	}
 	$dbc = NULL;
 }
 ?>
+</div>

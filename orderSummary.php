@@ -1,5 +1,6 @@
 <?php
 include('includes/header.php');
+include('includes/multifunction.php');
 
 $orderid = 0;
 if (isset($_GET["oid"])){
@@ -32,15 +33,25 @@ if ($status){
     $cust->execute();
     $ressingleRec = $singleRec->fetch(PDO::FETCH_ASSOC);
     $resCust = $cust->fetch(PDO::FETCH_ASSOC);
+?>
+
+    <div class="main-content" >
+    <h1 class="welcome-text">Hello <?php
+    $helloName = selectCustomer();
+    if ($helloName != "") {
+        echo $helloName;
+    } else {
+        echo $_SESSION['email'];
+    }?>, welcome to Order Summary</h1>
     
-    echo '<div style="background-color: white">';
+<?php     
     echo '<h3>Order Summary for '. $_SESSION['email'] .' with the Order ID: ' .$orderid. '</h3>';
     echo '<h4>Date of Order: ' .$ressingleRec['orderDate']. '</h4>';
 
     if ($multRec->rowCount() > 0){
         $cnt = 0;
         ?>
-    		<table border="1" style="background-color: white">
+    		<table border="1" >
 			<tr><th>Item No</th><th>Order Id</th><th>Dough</th><th>Cheeese</th><th>Sauce</th><th>Toppings</th></tr>
 <?php while ($row = $multRec->fetch(PDO::FETCH_ASSOC)){ 
     $cnt++; 
@@ -86,6 +97,6 @@ Pizza will be ready in 40 minutes and will be delivered to Address: <?php echo $
 	}
 
 ?>
-</div>
+
 
 
