@@ -47,6 +47,7 @@ html body {
   width: 100%;
   height: 85px;
   background-color: #B4000F;
+  flex-direction: column;
 }
 .navbar .header {
   padding-left: 60px;
@@ -54,6 +55,44 @@ html body {
   font-size: 24px;
   color: #FFFFFF;
   line-height: 85px;
+}
+.navigation {
+  margin: 0;
+  padding: 0 60px 0 60px;
+  background-color: #81000b;
+  flex-direction: row;
+  color: #FFF;
+}
+.navigation ul {
+  margin: 0;
+  padding: 0;
+  height: 50px;
+  line-height: 50px;
+  display: flex;
+  list-style-type: none;
+  font-size: 20px;
+}
+.navigation ul li {
+  display: flex;
+  flex: 1;
+  text-align: center;
+}
+.navigation ul li p {
+  font-size: 16px;
+  line-height: 110%;
+}
+.navigation ul li a {
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: #FFFFFF;
+}
+.navigation ul li a:hover {
+  background-color: #ab0916;
+}
+.navigation ul #welcomeBack {
+  justify-content: center;
+  margin-left: 10px;
 }
 .main-content {
   color: #FFFFFF;

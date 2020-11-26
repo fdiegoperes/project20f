@@ -14,4 +14,5 @@
 <body>
 <div class="navbar">
 <div class="header">IWD Pizzaria</div>
+<?php include('navigationMenu.php')?>
 </div>
