@@ -1,7 +1,7 @@
 <?php 
 	include('includes/header.php');
 	include('includes/multifunction.php');
-
+	include('includes/security.php');
 ?>
 <!--
 This form will be linked to index.php
@@ -10,13 +10,14 @@ when email user not exists, create new email button to link to this form -> a ne
 -->
 
 <div class="main-content" >
-<h1 class="welcome-text">Hello <?php 
+ <div class="content-user">
+<h1 class="welcome-text">Please update your information<?php 
   $helloName = selectCustomer();
   if ($helloName != "") {
     echo $helloName;
   } else {
     echo $_SESSION['email'];
-  }?>, welcome to User Information</h1>
+  }?></h1>
 
 <?php if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 		$err_msg = validate_form_1();
@@ -35,10 +36,34 @@ when email user not exists, create new email button to link to this form -> a ne
 	}
 ?>
 
-</body>
-</html>
 
-<?php function form_1($name = "", $address = "", $phone="",$city="", $province="", $postalCode=""){ ?>
+
+<?php function form_1($name = "", $address = "", $phone="",$city="", $province="", $postalCode=""){ 
+
+    if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+        $qry = 'Select nameCustomer, address, phone, city, province, postalCode  ';
+        $qry .= ' FROM tblCustomers ';
+        $qry .= ' WHERE email ="'. $_SESSION['email'].'"; ';
+        //echo $qry;
+        
+        $conn = connectToDB();
+        $singleRec = $conn->prepare($qry);
+        if (!$singleRec){
+            echo "<p>Error in display prepare: ".$dbc->errorCode()."</p>\n<p>Message ".implode($dbc->errorInfo())."</p>\n";
+            exit(1);
+        }
+        
+        $singleRec->execute();
+        $singleRec = $singleRec->fetch(PDO::FETCH_ASSOC);
+        
+        $name = $singleRec['nameCustomer'];
+        $address = $singleRec['address'];
+        $phone = $singleRec['phone'];
+        $city = $singleRec['city'];
+        $province = $singleRec['province'];
+        $postalCode = $singleRec['postalCode'];
+    }
+    ?>
 	<form method="POST" action="./userInformation.php">
 		<label for="name">Name: </label>
 		<input type="text" size="40" maxlength="40" id ="name" name="name" value="<?php echo $name; ?>"></input><br>
@@ -58,7 +83,7 @@ when email user not exists, create new email button to link to this form -> a ne
         <label for="phone">Phone</label>
 		<input type="tel" size="20" maxlength="20" id ="phone" name="phone" value="<?php echo $phone; ?>"></input><br>
         <br>
-		<input type="submit" value="Submit"/>
+		<input type="submit" class="button button-confirm" name="Update" value="Update Information">
 	</form>
 <br><br>
 <?php } ?>
@@ -162,12 +187,12 @@ function validate_form_1(){
  
     
 	if (count($error_msg) == 0){
-        $_SESSION['name'] = $name;
-        $_SESSION['address'] = $address;
-        $_SESSION['phone'] = $phone;
-        $_SESSION['city'] = $city;
-        $_SESSION['province'] = $province;
-        $_SESSION['postalCode'] =$postalCode;
+	    $_POST['name'] = $name;
+	    $_POST['address'] = $address;
+	    $_POST['phone'] = $phone;
+	    $_POST['city'] = $city;
+	    $_POST['province'] = $province;
+	    $_POST['postalCode'] =$postalCode;
         
 	}
 	return $error_msg;
@@ -175,12 +200,12 @@ function validate_form_1(){
 
 // update to tblCustomers in pizza_store_db database
 function update_data(){
-    $name=$_SESSION['name'];
-    $address=$_SESSION['address'];
-    $phone = $_SESSION['phone'];
-    $city=$_SESSION['city'];
-    $province=$_SESSION['province'];
-    $postalCode=$_SESSION['postalCode'];
+    $name=$_POST['name'];
+    $address=$_POST['address'];
+    $phone = $_POST['phone'];
+    $city=$_POST['city'];
+    $province=$_POST['province'];
+    $postalCode=$_POST['postalCode'];
     
     $conn = connectToDB();
    
@@ -202,4 +227,7 @@ function update_data(){
 	$dbc = NULL;
 }
 ?>
+  </div>
 </div>
+</body>
+</html>

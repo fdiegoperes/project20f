@@ -1,6 +1,7 @@
 <?php
 include('includes/header.php');
 include('includes/multifunction.php');
+include('includes/security.php');
 
 $orderid = 0;
 if (isset($_GET["oid"])){
@@ -25,6 +26,14 @@ if (!$multRec){
     echo "<p>Error in display prepare: ".$dbc->errorCode()."</p>\n<p>Message ".implode($dbc->errorInfo())."</p>\n";
     exit(1);
 }
+if (!$singleRec){
+    echo "<p>Error in display prepare: ".$dbc->errorCode()."</p>\n<p>Message ".implode($dbc->errorInfo())."</p>\n";
+    exit(1);
+}
+if (!$cust){
+    echo "<p>Error in display prepare: ".$dbc->errorCode()."</p>\n<p>Message ".implode($dbc->errorInfo())."</p>\n";
+    exit(1);
+}
 $status = $multRec->execute();
 
 if ($status){
@@ -35,17 +44,18 @@ if ($status){
     $resCust = $cust->fetch(PDO::FETCH_ASSOC);
 ?>
 
-    <div class="main-content" >
-    <h1 class="welcome-text">Hello <?php
+<div class="main-content" >
+     <div class="content">
+    <h1 class="welcome-text">Here is your Order Summary <?php
     $helloName = selectCustomer();
     if ($helloName != "") {
         echo $helloName;
     } else {
         echo $_SESSION['email'];
-    }?>, welcome to Order Summary</h1>
+    }?></h1>
     
 <?php     
-    echo '<h3>Order Summary for '. $_SESSION['email'] .' with the Order ID: ' .$orderid. '</h3>';
+    echo '<h3>Order Summary Order ID: ' .$orderid. '</h3>';
     echo '<h4>Date of Order: ' .$ressingleRec['orderDate']. '</h4>';
 
     if ($multRec->rowCount() > 0){
@@ -82,9 +92,9 @@ if ($status){
 			?></td>
 		</tr>
 <?php } ?>
-			</table><br><br>
+			</table><br><br>Please note: 
 Pizza will be ready in 40 minutes and will be delivered to Address: <?php echo $resCust['address'] ?><br><br>
-			<a href="orderPizza.php">Return to Order page</a><br><br>
+			<a href="orderPizza.php" class="button button-confirm">Return to Order page</a> <br><br>
 <?php
 		} else {
 			echo "<div>\n";
@@ -98,5 +108,8 @@ Pizza will be ready in 40 minutes and will be delivered to Address: <?php echo $
 
 ?>
 
+</div>
+</div>
 
-
+</body>
+</html>

@@ -1,6 +1,7 @@
 <?php
     include('includes/header.php');
     include('includes/multifunction.php');
+    include('includes/security.php');
     
     $dough_error = $cheese_error = $sauce_error = $toppings_error = '';
     $dough = $cheese = $sauce = '';
@@ -165,13 +166,14 @@
 ?>
 
 <div class="main-content" >
-  <h1 class="welcome-text">Hello <?php 
+  <div class="content">
+  <h1 class="welcome-text">Please make your order <?php 
   $helloName = selectCustomer();
   if ($helloName != "") {
     echo $helloName;
   } else {
     echo $_SESSION['email'];
-  }?>, welcome to IWD Pizzeria</h1>
+  }?></h1>
 
   <p class="blurb">Select your pizza number <?php echo $numberOfPizza; ?></p>
 
@@ -236,6 +238,7 @@
     <input type="submit" class="button button-confirm" id="addPizzaToOrder" name="addPizzaToOrder" value="Add another Pizza">
   </form>
   <br><br>
+  </div>
 </div>
 
 </body>

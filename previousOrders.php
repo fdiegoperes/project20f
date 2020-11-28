@@ -1,7 +1,7 @@
 <?php
     include('includes/header.php');
     include('includes/multifunction.php');
-
+    include('includes/security.php');
     
     $qry = "Select tblCustomers.nameCustomer, tblCustomers.address, tblCustomers.phone, tblCustomers.email, tblOrders.orderId, tblOrders.orderDate";
     $qry .= ' FROM tblCustomers inner join tblOrders on tblCustomers.email = tblOrders.email';
@@ -9,6 +9,7 @@
     if((strlen($_SESSION['email']) > 0)){
         $qry .= " WHERE tblCustomers.email like '%".$_SESSION['email']."%'";
     }
+    $qry .= " ORDER BY tblOrders.orderId DESC ";
 
     $stmt = $conn->prepare($qry);
     if (!$stmt){
@@ -22,16 +23,17 @@
         if ($stmt->rowCount() > 0){
             ?>
 <div class="main-content" >
-  <h1 class="welcome-text">Hello <?php 
+  <div class="content">
+  <h1 class="welcome-text">Here are your Previous Orders <?php 
   $helloName = selectCustomer();
   if ($helloName != "") {
     echo $helloName;
   } else {
     echo $_SESSION['email'];
-  }?>, welcome to Previous Orders </h1>
+  }?></h1>
            
 			<table border="1">
-			<tr><th>View Order Detail</th><th>Order Id</th><th>order Date</th></tr>
+			<tr><th> </th><th>Order Id</th><th>order Date</th></tr>
 <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){ ?>
 			<tr>
 			<td><a href="orderSummary.php?oid=<?php echo $row['orderId']; ?>">View Order Summary</a></td>
@@ -51,3 +53,8 @@
 		exit(1);
 	}
 ?>
+</div>
+</div>
+
+</body>
+</html>
