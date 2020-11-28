@@ -93,9 +93,12 @@ when email user not exists, create new email button to link to this form -> a ne
 //alert error message
 function display_error($error_msg){
 	echo "<p>\n";
+	$string = "";
 	foreach($error_msg as $v){
-		echo "<script type='text/javascript'>alert('$v');</script>";
+	    $string  .= ' ' . $v .'\n';
 	}
+	//echo  $string;
+	echo "<script type='text/javascript'>alert('$string');</script>";
 	echo "</p>\n";
 }
 
